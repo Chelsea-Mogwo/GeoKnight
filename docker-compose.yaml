@@ -1,0 +1,37 @@
+version: '3'
+services:
+  client:
+    # image
+    image: node:16
+    # change container name
+    container_name: fc
+    # ports
+    ports:
+      - 8080:8080
+    # code
+    volumes:
+      - type: bind
+        source: ./client/GeoKnight-Client
+        target: /code2
+    working_dir: /code2
+    # on start
+    command: bash -c "npm install & npm run dev"
+    depends_on:
+      - api
+  
+  api:
+    # images to build the container from
+    image: node:18
+    # change container name
+    container_name: fa
+    # ports?
+    ports:
+      - 3000:3000
+    # where is the code?
+    volumes:
+      - type: bind
+        source: ./server/GeoKnight-Server
+        target: /code
+    working_dir: /code
+    # what to do on start?
+    command: bash -c "npm install && npm run dev"
